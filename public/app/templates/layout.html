@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+    <head>
+        {% block head %}
+            <title>ICONScan</title>
+            <link rel="stylesheet" href="{{url_for('static',filename='styles/table.css')}}">
+            <link rel="stylesheet" href="{{url_for('static',filename='styles/layout.css')}}">
+            <link rel="icon" href="{{url_for('static',filename='media/favicon.ico')}}" />
+            
+            <!-- JQuery -->
+            <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+            <!-- ChartJS -->
+            <script src="https://cdn.jsdelivr.net/npm/dygraphs/dist/dygraph.min.js"></script>
+        {% endblock %}
+    </head>
+
+    <body>
+
+        <div id="header"> 
+            {% block header %}
+                
+                <a href="/">
+                    <div id="logo"></div>ICONScan
+                </a>
+
+                <div id="provider">
+                    <br><img src="{{url_for('static',filename='media/github.png')}}"/> Github source code : 
+                    <br><a href="{{constants.GITHUB_REPOSITORY}}">{{constants.GITHUB_REPOSITORY}}</a>
+                </div>
+
+                <div id="title">
+                    {% block title %}{% endblock %}
+                </div>
+
+            {% endblock %}
+
+        </div>
+
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>        
+
+        <div id="footer">
+            {% block footer %}
+                Made with ♥ by <a href="https://twitter.com/ICONationTeam">ICONation</a>
+            {% endblock %}
+        </div>
+
+    </body>
+
+</html>
