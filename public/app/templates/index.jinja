@@ -2,10 +2,14 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-    <h1>ICON Blockchain Transaction Count</h1>
-	<div id="graphdiv" style="padding:20px; width:80%; height:500px;"></div>
-    <script type="text/javascript">
     
+    <h1>ICON Blockchain Transaction Count</h1>
+    <div id="txcount" style="margin:20px; padding:20px; width:80%; height:500px;"></div>
+
+    <h1>ICON Blockchain Average ICX Transfer Amount</h1>
+    <div id="avgicx" style="margin:20px; padding:20px; width:80%; height:500px;"></div>
+
+    <script type="text/javascript">
         window.chartColors = {
             red: 'rgb(255, 99, 132)',
             orange: 'rgb(255, 159, 64)',
@@ -19,9 +23,23 @@
         var txcount = {{txcount | safe}};
         txcount = txcount.map (x => [new Date(x[0]), x[1]])
         new Dygraph (
-            document.getElementById("graphdiv"),
+            document.getElementById("txcount"),
             txcount, {
                 labels: ["Date", "Transaction Count"],
+                labelsSeparateLines: true,
+                animatedZooms: true,
+                rangeSelectorPlotFillColor: 'MediumSlateBlue',
+                rangeSelectorPlotFillGradientColor: 'rgba(123, 104, 238, 0)',
+            }
+        );
+
+        var avgicx = {{avgicx | safe}};
+        avgicx = avgicx.map (x => [new Date(x[0]), x[1]])
+        new Dygraph (
+            document.getElementById("avgicx"),
+            avgicx, {
+                labels: ["Date", "Average ICX Transfer Amount"],
+                labelsSeparateLines: true,
                 animatedZooms: true,
                 rangeSelectorPlotFillColor: 'MediumSlateBlue',
                 rangeSelectorPlotFillGradientColor: 'rgba(123, 104, 238, 0)',
