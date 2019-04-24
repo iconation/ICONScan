@@ -1,14 +1,16 @@
 SELECT 
     DATE(FROM_UNIXTIME(block.timestamp DIV 1000000)),
-    COUNT(DISTINCT all_transactions.txid) 
+    COUNT(DISTINCT all_transactions.txid) + COUNT(DISTINCT all_transactions.itxid) 
 FROM
     iconation.block
-INNER JOIN
+LEFT JOIN
     (
 		SELECT
-			transaction.id as txid,
+            transaction.id as txid,
+            internal_transaction.id as itxid,
 			transaction.block as blockid
-		FROM iconation.transaction
+		FROM
+			transaction
 		LEFT JOIN
 			internal_transaction
 		ON

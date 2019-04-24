@@ -18,11 +18,9 @@ def index():
     db = IconScanDb ("app/conf/credentials.json")
     db.connect_to_mysql()
     txcount = view_transactions_count_per_day.process (model_transactions_count_per_day.process (db))
-    avgicx = view_average_icx_daily_transfer.process (model_average_icx_daily_transfer.process (db))
 
     return render_template (
         'index.jinja', 
         constants=constants, 
-        txcount=json.dumps(txcount),
-        avgicx=json.dumps(avgicx)
+        txcount=json.dumps(txcount)
     )
