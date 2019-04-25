@@ -4,24 +4,27 @@
 {% block content %}
     
     <style>
-        #txcount {
+        .plot {
             color:#97F7FF;
             width:100%; 
             height:100%;
         }
 
-        #graph_container {
+        .graph_container {
             background:#1AAABA; 
             border-radius : 20px;
             padding : 20px;
             width:90%; 
-            height:500px;
+            height:400px;
             margin : auto;
+            margin-bottom : 20px;
         }
     </style>
 
-    <h1>ICON Blockchain Transaction Count</h1>
-    <div id="graph_container"><div id="txcount"></div></div>
+    <h1><center>ICON Blockchain Total Transaction Count</center></h1>
+    <div class="graph_container"><div id="txcount" class="plot"></div></div>
+    <h1><center>ICON Blockchain Transaction with > 1000 ICX Count</center></h1>
+    <div class="graph_container"><div id="txcountbig" class="plot"></div></div>
 
     <script type="text/javascript">
 
@@ -77,8 +80,10 @@
             ctx.fill();
         };
 
+        // ===================================================================
         var txcount = {{txcount | safe}};
         txcount = txcount.map (x => [new Date(x[0]), x[1]])
+        
         new Dygraph (
             document.getElementById("txcount"),
             txcount, {
@@ -102,5 +107,36 @@
                 drawHighlightPointCallback : pointFocus
             }
         );
+
+
+        // ===================================================================
+        var txcountbig = {{txcountbig | safe}};
+        txcountbig = txcountbig.map (x => [new Date(x[0]), x[1]])
+        
+        new Dygraph (
+            document.getElementById("txcountbig"),
+            txcountbig, {
+                legend: 'always',
+                labels: ["Date", "Transaction Count"],
+                labelsSeparateLines: true,
+                animatedZooms: true,
+                plotter: barChartPlotter,
+                axisLineColor: 'rgb(146, 255, 255)',
+                axes: {
+                    y: {
+                        drawGrid: true,
+                        gridLinePattern: [4,4],
+                        gridLineColor: 'rgb(146, 255, 255)',
+                    },
+                    x: {
+                        drawGrid: false,
+                    }
+                },
+                drawPointCallback: pointFocus,
+                drawHighlightPointCallback : pointFocus
+            }
+        );
+
+
     </script>
 {% endblock %}
