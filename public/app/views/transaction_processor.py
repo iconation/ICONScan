@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 import collections
 
 class Account:
@@ -13,29 +13,31 @@ def process (model, processor, *args):
 
     # Mainnet Genesis
     last_date = datetime.fromtimestamp(0)
+    last_date = date (last_date.year, last_date.month, last_date.day)
     accounts["hx54f7853dc6481b670caf69c5a27c7c8fe5be8269"] = Account (800460000, last_date)
 
-    for _, timestamp, txfrom, txto, txamount, itxfrom, itxto, itxamount in model:
+    for _, dt, txfrom, txto, txamount, itxfrom, itxto, itxamount in model:
 
-        timestamp /= 1000000
-        date = datetime.fromtimestamp(timestamp)
+        # date = datetime.fromtimestamp (timestamp)
+        # date = datetime.strptime (timestamp, '%Y-%m-%d').date()
+        dt = date (dt.year, dt.month, dt.day)
 
-        if last_date.date() != date.date():
-            result.append ((last_date.isoformat(), processor (accounts, date, args)))
-            last_date = date
+        if last_date != dt:
+            result.append ((last_date.isoformat(), processor (accounts, dt, args)))
+            last_date = dt
 
         if txfrom:
             accounts[txfrom].balance -= txamount
-            accounts[txfrom].withdraw = date
+            accounts[txfrom].withdraw = dt
             if not txto in accounts:
-                accounts[txto] = Account (txamount, date)
+                accounts[txto] = Account (txamount, dt)
             else:
                 accounts[txto].balance += txamount
         if itxfrom:
             accounts[itxfrom].balance -= itxamount
-            accounts[itxfrom].withdraw = date
+            accounts[itxfrom].withdraw = dt
             if not itxto in accounts:
-                accounts[itxto] = Account (itxamount, date)
+                accounts[itxto] = Account (itxamount, dt)
             else:
                 accounts[itxto].balance += itxamount
 

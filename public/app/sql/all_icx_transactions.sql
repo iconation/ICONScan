@@ -1,6 +1,6 @@
 SELECT 
     blockid,
-    timestamp,
+    DATE(FROM_UNIXTIME(timestamp DIV 1000000)),
     txfrom,
     txto,
     CAST((txamount/1000000000000000000) AS UNSIGNED INTEGER),
