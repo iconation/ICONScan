@@ -1,7 +1,7 @@
 /* ============= ALL ============= */
 @font-face{
     font-family : Montserrat;
-    src: url('/static/fonts/Montserrat-Regular.ttf');
+    src: url('static/fonts/Montserrat-Regular.ttf');
 }
 
 html {
@@ -37,7 +37,7 @@ a:hover {
 #header {
     padding : 20px;
     height : 100px;
-    background : #46a7b7;
+    background : #1AAABA;
     font-family: Montserrat;
     font-size: 40px;
     color : white;
